@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:text="@string/app_full_name"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/wave_player"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="10dp"
+            android:background="#000" />
+
+        <SeekBar
+            android:id="@+id/waverate_sb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/BeginHz"/>
+
+        <EditText
+            android:inputType="number"
+            android:id="@+id/edit_BeginHztext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="17500"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/StepHz"/>
+
+        <EditText
+            android:inputType="number"
+            android:id="@+id/edit_StepHztext"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="100"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/freqNum"/>
+
+        <EditText
+            android:inputType="number"
+            android:id="@+id/edit_freqNumtext"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="2"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/simpleRate"/>
+
+        <EditText
+            android:inputType="number"
+            android:id="@+id/edit_simpleRatetext"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="44100"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_channel_out"/>
+
+        <RadioGroup
+            android:id="@+id/channel_out_rg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            >
+            <RadioButton
+                android:id="@+id/channel_out_both_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="both"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/channel_out_left_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="left" />
+
+            <RadioButton
+                android:id="@+id/channel_out_right_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="right"/>
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/waverate_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wave_player_2"/>
+
+            <ToggleButton
+                android:id="@+id/wave_player_tb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/recorder"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="10dp"
+            android:background="#000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_channel_in"/>
+
+        <RadioGroup
+            android:id="@+id/channel_in_rg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            >
+            <RadioButton
+                android:id="@+id/channel_in_mono_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mono" />
+            <RadioButton
+                android:id="@+id/channel_in_stereo_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stereo"
+                android:checked="true" />
+            <RadioButton
+                android:id="@+id/channel_in_bottom_mic_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bottom_mic"
+                android:checked="true" />
+            <RadioButton
+                android:id="@+id/channel_in_top_mic_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/top_mic"
+                android:checked="true" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/record_wav"/>
+
+            <ToggleButton
+                android:id="@+id/recorder_tb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start_both"/>
+
+            <ToggleButton
+                android:id="@+id/start_both_tb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="60dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_dir"/>
+
+            <Button
+                android:id="@+id/create_dir_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/log_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ToggleButton
+            android:id="@+id/test_tb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:text="Test"/>
+    </LinearLayout>
+
+</ScrollView>
