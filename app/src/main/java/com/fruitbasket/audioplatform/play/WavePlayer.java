@@ -43,14 +43,11 @@ public class WavePlayer extends Player {
         this.ifreqNum = ifreqNum;
     }
 
+    //play 2
     @Override
     public void play(){
-
-
         //同步播放
         player.play();
-
-
         /*
        异步播放
         new Thread(new Runnable() {
@@ -61,7 +58,20 @@ public class WavePlayer extends Player {
         });*/
     }
 
-    ///这里是原来的播音方法，先留着
+    @Override
+    public void stop(){
+        player.stop();
+    }
+
+    @Override
+    public void release() {
+        if (audioTrack != null) {
+            audioTrack.release();
+            audioTrack = null;
+        }
+    }
+
+    //play 1
     /*@Override
     public void play() {
         final int bufferSize = 6 * AudioTrack.getMinBufferSize(
@@ -163,20 +173,8 @@ public class WavePlayer extends Player {
         if (audioTrack != null) {
             audioTrack.stop();
         }
-    }*/
-
-    @Override
-    public void stop(){
-        player.stop();
-    }
-
-    @Override
-    public void release() {
-        if (audioTrack != null) {
-            audioTrack.release();
-            audioTrack = null;
-        }
     }
 
     private native short[] getMulripleFreqSignal(int bufferSize,int sampleRate,int iBeginHz,int iStepHz,int ifreqNum);
+    */
 }

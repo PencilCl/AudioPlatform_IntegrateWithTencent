@@ -60,7 +60,7 @@ public class GlobalConfig extends Application {
         public static float FREQ_INTERVAL    =  (float)350.0;
         //Number of frequency
         public static int   NUM_FREQ         =   1;
-        //Number of frame size
+        //Number of frame size ，简洁控制了播放声音的单位长度
         public static int  MAX_FRAME_SIZE    = 48000;
 
 

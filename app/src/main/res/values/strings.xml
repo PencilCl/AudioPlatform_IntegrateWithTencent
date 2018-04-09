@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AudioPlatform</string>
-    <string name="app_version_name">v1.0.7</string>
-    <string name="app_full_name">AudioPlatform v1.0.7</string>
+    <string name="app_version_name">v1.0.8</string>
+    <string name="app_full_name">AudioPlatform v1.0.8</string>
 
     <string name="wave_player">wave player</string>
     <string name="choose_channel_out">choose a channel out : </string>

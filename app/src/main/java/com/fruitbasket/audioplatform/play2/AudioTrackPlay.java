@@ -74,8 +74,9 @@ public class AudioTrackPlay {
 
         }
 
-        ///Test: add some control
-        final int[] CONTROL={1,-1,-1,-1,-1,-1,	1,	-1,	1,	-1,	1,	1,	1,	1,	-1,	-1,	1,	-1,	-1,	1,	-1,	-1,	-1,	1,	-1,	-1,	-1,	-1,	1,	-1,	-1,	1,	1,	1,	-1,	1,	1,	-1,	1,	-1,	1,	-1,	1,	-1	-1,	1,	-1,	1,	1,	1,	-1,	1,	-1,	1,	1,	-1,	-1,	-1,	-1,	-1,	-1,	1,	1,	-1,	-1,	1,	-1,	1,	-1,	-1,	-1,	1,	1,	1,	-1,	-1	-1,	-1,	1,	1,	1,	1,	1,	-1,	-1,	-1,	1,	-1,	1,	1,	-1,	1,	1,	-1,	-1,	1,	1,	-1,	-1,	-1,	1,	1,	-1,	1,	-1,	-1,	1,	1,	-1,	1,	1,	1,	1,	1,	1,	1,	-1,	1,	1,	1,	-1,	-1,	1,	1,	1,	1,	-1	};
+        ///Test1: add some control
+        //final int[] CONTROL={ 1,1,	1,	1,	1,	1,	-1,	-1,	-1,	1,	-1,	1,	1,	-1,	1,	1,	-1,	-1,	1,	1,	-1,	-1,	-1,	1,	1,	-1,	1,	-1,	-1,	1,	1,	-1,	1,	1,	1,	1,	1,	1,	1,	-1,	1,	1,	1,	-1,	-1,	1,	1,	1,	1,	-1	};
+        /*final int[] CONTROL={1};
         final int UNIT_NUM=10;
 
         int counter;
@@ -96,11 +97,28 @@ public class AudioTrackPlay {
                     controlIndex=0;
                 }
             }
+        }*/
+        //Test1 End
 
-        }
-        //Test End
+        //Test2: add some control
+        /*final int NUM=320;
+        int i,j;
+
+        for(i=0,j=0;i<generatedSound.length;++i,++j){
+            if(j<NUM/2){
+                ;
+            }
+            else if(j<NUM){
+                generatedSound[i]=0;
+            }
+            else{
+                j=-1;
+            }
+        }*/
+        //Test2
 
 
-        //GlobalConfig.stWaveFileUtil.saveDataToWav(generatedSound,GlobalConfig.stWaveFileUtil.getAndroidPlayFileName(),(long)(GlobalConfig.AUDIO_SAMPLE_RATE),1,generatedSound.length,(short)16);
+
+        ///GlobalConfig.stWaveFileUtil.saveDataToWav(generatedSound,GlobalConfig.stWaveFileUtil.getAndroidPlayFileName(),(long)(GlobalConfig.AUDIO_SAMPLE_RATE),1,generatedSound.length,(short)16);
     }
 }
