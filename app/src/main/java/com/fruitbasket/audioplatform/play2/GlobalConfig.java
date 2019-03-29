@@ -16,7 +16,7 @@ public class GlobalConfig extends Application {
 
        private static GlobalConfig stGlobalConfig ;
       //Record sample rate
-       public static int AUDIO_SAMPLE_RATE = 48000;//44100;//16000;//48000
+       public static int AUDIO_SAMPLE_RATE = 44100;//44100;//16000;//48000
        public static boolean bByte = true;
        public static int  RECORD_FRAME_SIZE    = 512*2; //byte
        public static int  MAX_RECORD_CACHE_SIZE    = 4096;
@@ -62,7 +62,12 @@ public class GlobalConfig extends Application {
         public static int   NUM_FREQ         =   1;
         //Number of frame size ，简洁控制了播放声音的单位长度
         public static int  MAX_FRAME_SIZE    = 48000;
-
+        // 初始音量
+        public static float INITIAL_VOLUME = 0.2f;
+        // 步增音量
+        public static float STEP_VOLUME = 0f;
+        // 一次播放所有频率
+        public static boolean ALL_FREQ = false;
 
         private GlobalConfig (){}
         public static GlobalConfig getInstance() {

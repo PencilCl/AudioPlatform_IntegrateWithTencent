@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -57,10 +58,20 @@ final public class MainActivity extends Activity {
     private EditText StepHzView;
     private EditText FreqNumView;
     private EditText SimpleHzView;
+    private EditText initialVolumeView;
+    private EditText stepVolumeView;
+    private EditText playTimeView;
+    private EditText numberOfTimesView;
+    private Switch allFreqView;
     public  int iBeginHz;
     public  int iStepHz;
     public  int ifreqNum ;
     public  int iSimpleHz ;
+    public float initialVolume;
+    public float stepVolume;
+    public int playTime;
+    public int numberOfTimes;
+    public boolean allFreq;
 
     private Intent intent;
     private AudioService audioService;
@@ -136,11 +147,13 @@ final public class MainActivity extends Activity {
         StepHzView   = (EditText)findViewById(R.id.edit_StepHztext);
         FreqNumView = (EditText)findViewById(R.id.edit_freqNumtext);
         SimpleHzView = (EditText)findViewById(R.id.edit_simpleRatetext);
+        initialVolumeView = (EditText) findViewById(R.id.edit_initialVolume);
+        stepVolumeView = (EditText)findViewById(R.id.edit_stepVolume);
+        playTimeView = (EditText)findViewById(R.id.edit_playTime);
+        numberOfTimesView = (EditText)findViewById(R.id.edit_times);
+        allFreqView = (Switch)findViewById(R.id.switch_allFreq);
 
-        iBeginHz    = Integer.parseInt(BeginHzView.getText().toString());
-        iStepHz      = Integer.parseInt(StepHzView.getText().toString());
-        ifreqNum   = Integer.parseInt(FreqNumView.getText().toString());
-        iSimpleHz   = Integer.parseInt(SimpleHzView.getText().toString());
+        updateValueFromView();
 
         ToggleCheckedChangeListener tcListener=new ToggleCheckedChangeListener();
         channelOutRG =(RadioGroup)findViewById(R.id.channel_out_rg);
@@ -233,6 +246,18 @@ final public class MainActivity extends Activity {
         testTB.setOnCheckedChangeListener(tcListener);
     }
 
+    private void updateValueFromView() {
+        iBeginHz    = Integer.parseInt(BeginHzView.getText().toString());
+        iStepHz      = Integer.parseInt(StepHzView.getText().toString());
+        ifreqNum   = Integer.parseInt(FreqNumView.getText().toString());
+        iSimpleHz   = Integer.parseInt(SimpleHzView.getText().toString());
+        initialVolume = Float.parseFloat(initialVolumeView.getText().toString());
+        stepVolume = Float.parseFloat(stepVolumeView.getText().toString());
+        playTime = Integer.parseInt(playTimeView.getText().toString());
+        numberOfTimes = Integer.parseInt(numberOfTimesView.getText().toString());
+        allFreq = allFreqView.isChecked();
+    }
+
     private class ToggleCheckedChangeListener implements CompoundButton.OnCheckedChangeListener{
         private static final String TAG="...TCCListener";
 
@@ -256,17 +281,36 @@ final public class MainActivity extends Activity {
                 case R.id.start_both_tb:
                     if(isChecked){
                         logTV.append("start        both: "+new SimpleDateFormat("HH:mm:ss:SSS").format(new Date())+"\n");
-                        startPlayWav();
-                        logTV.append("started     play: "+new SimpleDateFormat("HH:mm:ss:SSS").format(new Date())+"\n");
+
                         startRecordWav();
                         logTV.append("started record: "+new SimpleDateFormat("HH:mm:ss:SSS").format(new Date())+"\n");
-                    }
-                    else{
-                        logTV.append("stop        both: "+new SimpleDateFormat("HH:mm:ss:SSS").format(new Date())+"\n");
-                        stopRecord();
-                        logTV.append("stoped record: "+new SimpleDateFormat("HH:mm:ss:SSS").format(new Date())+"\n");
-                        stopPlay();
-                        logTV.append("stoped     play: "+new SimpleDateFormat("HH:mm:ss:SSS").format(new Date())+"\n");
+
+                        startBothTB.setEnabled(false);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                for (int i = 0; i < numberOfTimes; ++i) {
+                                    try {
+                                        startPlayWav();
+
+                                        Thread.sleep(playTime * (allFreq ? 1 : ifreqNum) + 400);
+                                        stopPlay();
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                stopRecord();
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        startBothTB.setChecked(false);
+                                        startBothTB.setEnabled(true);
+                                    }
+                                });
+                            }
+                        }).start();
                     }
                     break;
 
@@ -286,10 +330,12 @@ final public class MainActivity extends Activity {
         private void startPlayWav(){
             Log.i(TAG,"starPlayWav()");
             if(audioService !=null){
-                iBeginHz    = Integer.parseInt(BeginHzView.getText().toString());
-                iStepHz      = Integer.parseInt(StepHzView.getText().toString());
-                ifreqNum   = Integer.parseInt(FreqNumView.getText().toString());
-                iSimpleHz   = Integer.parseInt(SimpleHzView.getText().toString());
+                updateValueFromView();
+
+                GlobalConfig.INITIAL_VOLUME = initialVolume;
+                GlobalConfig.STEP_VOLUME = stepVolume;
+                GlobalConfig.MAX_FRAME_SIZE = (int) (playTime / 1000.0f * GlobalConfig.AUDIO_SAMPLE_RATE);
+                GlobalConfig.ALL_FREQ = allFreq;
 
                 GlobalConfig.START_FREQ=iBeginHz;
                 GlobalConfig.FREQ_INTERVAL=iStepHz;

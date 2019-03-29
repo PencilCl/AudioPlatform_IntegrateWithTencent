@@ -15,8 +15,6 @@ public class PhaseProcess {
     private int AUDIO_SAMPLE_RATE =  GlobalConfig.AUDIO_SAMPLE_RATE; //should be the same as in controller, will add later
     //default temperature
     private int TEMPERATURE  =  20;
-    //volume
-    private double VOLUME = 0.2;
     //cic filter stages
     private int CIC_SEC  = 4;
     //cic filter decimation
@@ -66,6 +64,12 @@ public class PhaseProcess {
     private float[]         mFreqPower = new float[MAX_NUM_FREQS];
     public  int             mSocBufPos;
 
+    private int inMaxFramesPerSlice;
+    private float initialVolume;
+    private float stepVolume;
+    private int time; // 播放时长
+    private boolean allFreq;
+
     public static MatrixProcess stMatrixProcess = new MatrixProcess();
     public static WaveFileUtil stWaveFileUtil = new WaveFileUtil();
 
@@ -79,22 +83,32 @@ public class PhaseProcess {
 
     }
 
-    public void RangeFinder( int inMaxFramesPerSlice , int inNumFreq, float inStartFreq, float inFreqInterv )
+    public void RangeFinder(
+            int inMaxFramesPerSlice , int inNumFreq, float inStartFreq, float inFreqInterv,
+            float initialVolume, float stepVolume, boolean allFreq
+            )
     {
         //Number of frequency
         mNumFreqs = inNumFreq;
         //Buffer size
-        mBufferSize = inMaxFramesPerSlice;
+        mBufferSize = inMaxFramesPerSlice * (allFreq ? 1 : inNumFreq);
         //Frequency interval
         mFreqInterv = inFreqInterv;
+
+        this.inMaxFramesPerSlice = inMaxFramesPerSlice;
+        this.initialVolume = initialVolume;
+        this.stepVolume = stepVolume;
+        this.time = time;
+        this.allFreq = allFreq;
+
         //Receive data size
-        mRecDataSize = 4*inMaxFramesPerSlice;
+        mRecDataSize = 4*mBufferSize;
         //Sound speed
         mSoundSpeed = (float)(331.3 + 0.606 * TEMPERATURE);
         //Init buffer
         for(int i=0; i<MAX_NUM_FREQS; i++){
-            mSinBuffer[i]=new float[2*inMaxFramesPerSlice];
-            mCosBuffer[i]=new float[2*inMaxFramesPerSlice];
+            mSinBuffer[i]=new float[2*mBufferSize];
+            mCosBuffer[i]=new float[2*mBufferSize];
 
             mFreqs[i]=inStartFreq+i*inFreqInterv;
 
@@ -109,7 +123,7 @@ public class PhaseProcess {
             }
         }
 
-        mPlayBuffer = new short[2*inMaxFramesPerSlice];
+        mPlayBuffer = new short[mBufferSize];
 
         mRecDataBuffer = new short[mRecDataSize];
         mFRecDataBuffer = new float[mRecDataSize];
@@ -142,12 +156,22 @@ public class PhaseProcess {
         }
 
         float mTempSample;
-        for(int n=0;n<mBufferSize*2;n++){
-            mTempSample=0;
-            for(int i=0; i<mNumFreqs; i++){
-                mTempSample+=mCosBuffer[i][n]*VOLUME;
+
+        if (this.allFreq) {
+            for(int n=0;n<mBufferSize;n++){
+                mTempSample=0;
+                for(int i=0; i<mNumFreqs; i++){
+                    mTempSample+=mCosBuffer[i][n] * (initialVolume + i * stepVolume);
+                }
+                mPlayBuffer[n]=(short) (mTempSample/mNumFreqs*32767);
             }
-            mPlayBuffer[n]=(short) (mTempSample/mNumFreqs*32767);
+        } else {
+            for (int i = 0; i < mNumFreqs; ++i) {
+                for (int n = 0; n < this.inMaxFramesPerSlice; ++n) {
+                    mTempSample = mCosBuffer[i][n] * (initialVolume + i * stepVolume);
+                    mPlayBuffer[i * this.inMaxFramesPerSlice + n] = (short) (mTempSample/mNumFreqs*32767);
+                }
+            }
         }
         //mSquareBuffer = new short[mBufferSize*2];
         //createSquare(mBufferSize*2,mSquareBuffer);

@@ -81,6 +81,64 @@
             android:text="44100"/>
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/initial_volume" />
+
+        <EditText
+            android:id="@+id/edit_initialVolume"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:text="0.2" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/step_volume" />
+
+        <EditText
+            android:id="@+id/edit_stepVolume"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:text="0" />
+
+        <Switch
+            android:id="@+id/switch_allFreq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/all_frequencies_at_the_same_time" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/play_time" />
+
+        <EditText
+            android:id="@+id/edit_playTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:text="1000" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/number_of_times" />
+
+        <EditText
+            android:id="@+id/edit_times"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:text="1" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/choose_channel_out"/>

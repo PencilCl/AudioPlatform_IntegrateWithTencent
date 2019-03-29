@@ -3,6 +3,7 @@ package com.fruitbasket.audioplatform.play2;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
+import android.util.Log;
 
 /**
  * Created by Administrator on 2017/6/21.
@@ -16,7 +17,7 @@ public class AudioTrackPlay {
         init();
     }
     public void init(){
-        generatedSound = new byte[2 * GlobalConfig.stPhaseProxy.GetPlayBuffer().length];
+        generatedSound = new byte[2*GlobalConfig.stPhaseProxy.GetPlayBuffer().length];
 
         audioTrack = new AudioTrack(
                 AudioManager.STREAM_MUSIC,
@@ -41,7 +42,7 @@ public class AudioTrackPlay {
     public void setFrequency() {
         genTone();
         audioTrack.write(generatedSound, 0, generatedSound.length);
-        audioTrack.setLoopPoints(0, generatedSound.length/2, -1);
+//        audioTrack.setLoopPoints(0, generatedSound.length/2, -1);
         //audioTrack.setLoopPoints(0, 512, -1);
     }
 

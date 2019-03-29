@@ -36,7 +36,10 @@ public class PhaseProxy {
     public static File fRecordTxtFile ;
     public static File fReadRecordTxtFile ;
     public void init(){
-        stPhaseProcess.RangeFinder(GlobalConfig.MAX_FRAME_SIZE , GlobalConfig.NUM_FREQ, GlobalConfig.START_FREQ, GlobalConfig.FREQ_INTERVAL);
+        stPhaseProcess.RangeFinder(
+                GlobalConfig.MAX_FRAME_SIZE , GlobalConfig.NUM_FREQ, GlobalConfig.START_FREQ, GlobalConfig.FREQ_INTERVAL,
+                GlobalConfig.INITIAL_VOLUME, GlobalConfig.STEP_VOLUME, GlobalConfig.ALL_FREQ
+        );
         long lTime = 0;
         ppi = new PhaseProcessI(GlobalConfig.MAX_FRAME_SIZE , GlobalConfig.NUM_FREQ, GlobalConfig.START_FREQ, GlobalConfig.FREQ_INTERVAL);
 
