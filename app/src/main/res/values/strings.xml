@@ -26,7 +26,7 @@
     <string name="all_frequencies_at_the_same_time">play all frequencies at the same time</string>
     <string name="number_of_times">number of times : </string>
     <string name="initial_volume">initial volume : </string>
-    <string name="step_volume">step volume : </string>
+    <string name="step_volume">step volume (using \';\' as separator) : </string>
 
 
 

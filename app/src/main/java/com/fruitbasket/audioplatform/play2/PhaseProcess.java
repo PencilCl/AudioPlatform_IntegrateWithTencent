@@ -66,7 +66,7 @@ public class PhaseProcess {
 
     private int inMaxFramesPerSlice;
     private float initialVolume;
-    private float stepVolume;
+    private float[] stepVolume;
     private int time; // 播放时长
     private boolean allFreq;
 
@@ -85,7 +85,7 @@ public class PhaseProcess {
 
     public void RangeFinder(
             int inMaxFramesPerSlice , int inNumFreq, float inStartFreq, float inFreqInterv,
-            float initialVolume, float stepVolume, boolean allFreq
+            float initialVolume, float[] stepVolume, boolean allFreq
             )
     {
         //Number of frequency
@@ -161,14 +161,14 @@ public class PhaseProcess {
             for(int n=0;n<mBufferSize;n++){
                 mTempSample=0;
                 for(int i=0; i<mNumFreqs; i++){
-                    mTempSample+=mCosBuffer[i][n] * (initialVolume + i * stepVolume);
+                    mTempSample+=mCosBuffer[i][n] * (initialVolume + stepVolume[i]);
                 }
                 mPlayBuffer[n]=(short) (mTempSample/mNumFreqs*32767);
             }
         } else {
             for (int i = 0; i < mNumFreqs; ++i) {
                 for (int n = 0; n < this.inMaxFramesPerSlice; ++n) {
-                    mTempSample = mCosBuffer[i][n] * (initialVolume + i * stepVolume);
+                    mTempSample = mCosBuffer[i][n] * (initialVolume + stepVolume[i]);
                     mPlayBuffer[i * this.inMaxFramesPerSlice + n] = (short) (mTempSample/mNumFreqs*32767);
                 }
             }

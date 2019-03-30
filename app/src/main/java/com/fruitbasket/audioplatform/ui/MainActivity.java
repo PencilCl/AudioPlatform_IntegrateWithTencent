@@ -68,7 +68,7 @@ final public class MainActivity extends Activity {
     public  int ifreqNum ;
     public  int iSimpleHz ;
     public float initialVolume;
-    public float stepVolume;
+    public float[] stepVolume;
     public int playTime;
     public int numberOfTimes;
     public boolean allFreq;
@@ -246,16 +246,36 @@ final public class MainActivity extends Activity {
         testTB.setOnCheckedChangeListener(tcListener);
     }
 
-    private void updateValueFromView() {
+    private boolean updateValueFromView() {
+        ifreqNum   = Integer.parseInt(FreqNumView.getText().toString());
+
+        String[] stepVolumeStr = stepVolumeView.getText().toString().split(";");
+        if (stepVolumeStr.length == 0 || (stepVolumeStr.length != 1 && stepVolumeStr.length != ifreqNum)) {
+            return false;
+        }
+        stepVolume = new float[ifreqNum];
+        if (stepVolumeStr.length == 1) {
+            float step = Float.parseFloat(stepVolumeStr[0]);
+            stepVolume[0] = 0;
+            for (int i = 1; i < ifreqNum; ++i) {
+                stepVolume[i] = stepVolume[i - 1] + step;
+            }
+        } else {
+            for (int i = 1; i < ifreqNum; ++i) {
+                stepVolume[i] = Float.parseFloat(stepVolumeStr[i]);
+            }
+        }
+
         iBeginHz    = Integer.parseInt(BeginHzView.getText().toString());
         iStepHz      = Integer.parseInt(StepHzView.getText().toString());
-        ifreqNum   = Integer.parseInt(FreqNumView.getText().toString());
         iSimpleHz   = Integer.parseInt(SimpleHzView.getText().toString());
         initialVolume = Float.parseFloat(initialVolumeView.getText().toString());
-        stepVolume = Float.parseFloat(stepVolumeView.getText().toString());
+
         playTime = Integer.parseInt(playTimeView.getText().toString());
         numberOfTimes = Integer.parseInt(numberOfTimesView.getText().toString());
         allFreq = allFreqView.isChecked();
+
+        return true;
     }
 
     private class ToggleCheckedChangeListener implements CompoundButton.OnCheckedChangeListener{
@@ -280,6 +300,20 @@ final public class MainActivity extends Activity {
                     break;
                 case R.id.start_both_tb:
                     if(isChecked){
+                        if (!updateValueFromView()) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(MainActivity.this,
+                                            String.format("length of step volume is invalid!", ifreqNum),
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+                                }
+                            });
+                            startBothTB.setChecked(false);
+                            return;
+                        }
+
                         logTV.append("start        both: "+new SimpleDateFormat("HH:mm:ss:SSS").format(new Date())+"\n");
 
                         startRecordWav();
@@ -330,7 +364,18 @@ final public class MainActivity extends Activity {
         private void startPlayWav(){
             Log.i(TAG,"starPlayWav()");
             if(audioService !=null){
-                updateValueFromView();
+                if (!updateValueFromView()) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this,
+                                    String.format("length of step volume is invalid!", ifreqNum),
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                    });
+                    return;
+                }
 
                 GlobalConfig.INITIAL_VOLUME = initialVolume;
                 GlobalConfig.STEP_VOLUME = stepVolume;
@@ -363,6 +408,7 @@ final public class MainActivity extends Activity {
         private void startRecordWav(){
             Log.i(TAG,"startRecordWav()");
             if(audioService!=null){
+                System.out.println(channelIn);
                 audioService.startRecordWav(
                         channelIn,
                         AppCondition.DEFAULE_SIMPLE_RATE,

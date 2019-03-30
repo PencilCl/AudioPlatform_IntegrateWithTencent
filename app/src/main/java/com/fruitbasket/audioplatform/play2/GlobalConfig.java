@@ -65,7 +65,7 @@ public class GlobalConfig extends Application {
         // 初始音量
         public static float INITIAL_VOLUME = 0.2f;
         // 步增音量
-        public static float STEP_VOLUME = 0f;
+        public static float[] STEP_VOLUME;
         // 一次播放所有频率
         public static boolean ALL_FREQ = false;
 

@@ -103,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="numberDecimal"
+            android:inputType="text|numberDecimal"
             android:text="0" />
 
         <Switch
@@ -187,7 +187,8 @@
             <ToggleButton
                 android:id="@+id/wave_player_tb"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:enabled="false" />
         </LinearLayout>
 
         <TextView
@@ -250,7 +251,8 @@
             <ToggleButton
                 android:id="@+id/recorder_tb"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:enabled="false" />
         </LinearLayout>
 
         <LinearLayout
