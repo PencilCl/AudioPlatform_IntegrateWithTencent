@@ -8,7 +8,7 @@ import android.util.Log;
 
 public class PhaseProcess {
      //max number of frequency
-    private int MAX_NUM_FREQS = 16;
+    private int MAX_NUM_FREQS = 50;
     //pi
     private double PI = 3.1415926535;
     //audio sample rate

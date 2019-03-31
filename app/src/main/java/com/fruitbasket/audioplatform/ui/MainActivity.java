@@ -49,6 +49,10 @@ final public class MainActivity extends Activity {
 
     private ToggleButton testTB;
 
+    private Button resetBtn;
+    private TextView numberOfCollectedView;
+    private int numberOfCollected;
+
     private int channelOut= Player.CHANNEL_OUT_BOTH;
     //private int channelIn= AudioFormat.CHANNEL_IN_MONO;
     private int channelIn = AudioFormat.CHANNEL_IN_STEREO;
@@ -244,6 +248,26 @@ final public class MainActivity extends Activity {
 
         testTB=(ToggleButton)findViewById(R.id.test_tb);
         testTB.setOnCheckedChangeListener(tcListener);
+
+        numberOfCollectedView = (TextView) findViewById(R.id.numberOfCollected);
+        resetBtn = (Button) findViewById(R.id.reset);
+        resetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                numberOfCollected = 0;
+                updateNumberOfTimesView();
+            }
+        });
+        updateNumberOfTimesView();
+    }
+
+    private void updateNumberOfTimesView() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                numberOfCollectedView.setText(String.format(getResources().getString(R.string.number_of_collected), numberOfCollected));
+            }
+        });
     }
 
     private boolean updateValueFromView() {
@@ -314,15 +338,28 @@ final public class MainActivity extends Activity {
                             return;
                         }
 
-                        logTV.append("start        both: "+new SimpleDateFormat("HH:mm:ss:SSS").format(new Date())+"\n");
-
-                        startRecordWav();
-                        logTV.append("started record: "+new SimpleDateFormat("HH:mm:ss:SSS").format(new Date())+"\n");
-
                         startBothTB.setEnabled(false);
+                        logTV.append("waiting for 3 s..."+new SimpleDateFormat("HH:mm:ss:SSS").format(new Date())+"\n");
+
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
+                                try {
+                                    Thread.sleep(3000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        logTV.append("start        both: "+new SimpleDateFormat("HH:mm:ss:SSS").format(new Date())+"\n");
+
+                                        startRecordWav();
+                                        logTV.append("started record: "+new SimpleDateFormat("HH:mm:ss:SSS").format(new Date())+"\n");
+                                    }
+                                });
+
                                 for (int i = 0; i < numberOfTimes; ++i) {
                                     try {
                                         startPlayWav();
@@ -341,6 +378,9 @@ final public class MainActivity extends Activity {
                                     public void run() {
                                         startBothTB.setChecked(false);
                                         startBothTB.setEnabled(true);
+
+                                        ++numberOfCollected;
+                                        updateNumberOfTimesView();
                                     }
                                 });
                             }

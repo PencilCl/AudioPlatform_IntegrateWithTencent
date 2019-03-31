@@ -286,9 +286,21 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/numberOfCollected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/number_of_collected" />
+
+        <Button
+            android:id="@+id/reset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/reset" />
+
+        <TextView
             android:id="@+id/log_tv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/test_tb"

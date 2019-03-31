@@ -41,7 +41,7 @@ public class PhaseProxy {
                 GlobalConfig.INITIAL_VOLUME, GlobalConfig.STEP_VOLUME, GlobalConfig.ALL_FREQ
         );
         long lTime = 0;
-        ppi = new PhaseProcessI(GlobalConfig.MAX_FRAME_SIZE , GlobalConfig.NUM_FREQ, GlobalConfig.START_FREQ, GlobalConfig.FREQ_INTERVAL);
+//        ppi = new PhaseProcessI(GlobalConfig.MAX_FRAME_SIZE , GlobalConfig.NUM_FREQ, GlobalConfig.START_FREQ, GlobalConfig.FREQ_INTERVAL);
 
         sRecordFile = GlobalConfig.stWaveFileUtil.getRecordTxtFileName();
         //RecordBufferedWriter = GlobalConfig.stWaveFileUtil.getFileBufferedWriter(sRecordFile);
